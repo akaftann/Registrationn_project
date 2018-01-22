@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+}
+
+<h3>Выберите марку</h3>
+@Html.DropDownList("Id", ViewBag.CarBrands as SelectList)
+@*@Html.DropDownList("Id", ViewBag.CarModels1 as SelectList)*@
+<p>@ViewBag.CarModels1</p>
+
+@section scripts{
+    <script type="text/javascript">
+    $(function () {
+
+        $('#carbrand').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItems")/' + id,
+                success: function (data) {
+
+                    // заменяем содержимое присланным частичным представлением
+                    $('#carmodel').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+}
